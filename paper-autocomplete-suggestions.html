@@ -160,6 +160,10 @@
         color: #333;
       }
 
+      .powered-by-google-postfix{
+        float: right;
+      }
+
       /**
        * IE11 paper-item min-height bug: https://github.com/PolymerElements/paper-item/issues/35
        */
@@ -172,7 +176,12 @@
     <div>
       <!-- unselectable is needed to fix an issue related to the focus being taken away when clicking in the
        results scrollbar -->
-      <paper-material elevation="1" id="suggestionsWrapper" unselectable="on"></paper-material>
+      <paper-material elevation="1" id="suggestionsWrapper" unselectable="on">
+        <div id="suggestions"></div>
+        <div hidden$="[[!isPoweredByGoogle]]" class="powered-by-google-postfix">
+          <img height="18" width="144" src="images/powered_by_google.png">
+        </div>
+      </paper-material>
 
       <!-- Default suggestion template -->
       <template id="defaultTemplate">
@@ -411,7 +420,12 @@
         /**
          * To avoid unnecessary access to the DOM, we keep a reference to the current template being used
          */
-        __customTplRef: Object
+        __customTplRef: Object,
+
+        isPoweredByGoogle: {
+          type: Boolean,
+          value: false
+        }
       },
 
       // Element Lifecycle
@@ -565,7 +579,7 @@
        *    in case no suggestions need to be rendered, you should either not call this method or provide an empty array.
        */
       _renderSuggestions: function (suggestions) {
-        var suggestionsContainer = Polymer.dom(this.$.suggestionsWrapper);
+        var suggestionsContainer = Polymer.dom(this.$.suggestions);
         var isPolymer1 = !Polymer.Element;
 
         this._clearSuggestions();
@@ -587,7 +601,7 @@
       },
 
       _clearSuggestions: function () {
-        var suggestionsContainer = Polymer.dom(this.$.suggestionsWrapper),
+        var suggestionsContainer = Polymer.dom(this.$.suggestions),
           last;
         while (last = suggestionsContainer.lastChild) suggestionsContainer.removeChild(last);
       },
