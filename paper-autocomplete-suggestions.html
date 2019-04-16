@@ -884,7 +884,7 @@
        * When item height is changed, the maxHeight of the suggestionWrapper need to be updated
        */
       _itemHeightChanged: function () {
-        this.$.suggestionsWrapper.style.maxHeight = this._itemHeight * this.maxViewableItems + 'px';
+        this.$.suggestionsWrapper.style.maxHeight = (this.isPoweredByGoogle ? 25 : 0) + this._itemHeight * this.maxViewableItems + 'px';
       },
 
       /****************************
